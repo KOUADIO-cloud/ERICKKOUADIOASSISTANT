@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Assistant Pastoral</title>
+
+    <meta name="description" content="Application mobile pour la gestion des activités pastorales - calendrier, membres, sermons et visites" />
+    <meta name="author" content="Dualite Alpha" />
+
+    <meta property="og:title" content="Assistant Pastoral" />
+    <meta property="og:description" content="Application mobile pour la gestion des activités pastorales - calendrier, membres, sermons et visites" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://d33wubrfki0l68.cloudfront.net/68bebb9f0496a106ec4dda89/screenshot_2025-09-08-11-19-10-0000.webp" />
+    <meta property="og:image:alt" content="Aperçu de l'Assistant Pastoral" />
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Assistant Pastoral" />
+    <meta name="twitter:description" content="Application mobile pour la gestion des activités pastorales - calendrier, membres, sermons et visites" />
+    <meta name="twitter:site" content="@dualitedev" />
+    <meta name="twitter:image" content="https://d33wubrfki0l68.cloudfront.net/68bebb9f0496a106ec4dda89/screenshot_2025-09-08-11-19-10-0000.webp" />
+
+    <link rel="canonical" href="https://our-pasteur-3tbx-alphaproject.netlify.app" />
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#4a90e2">
+
+     <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Assistant Pastoral",
+      "url": "https://our-pasteur-3tbx-alphaproject.netlify.app",
+      "description": "Application mobile pour la gestion des activités pastorales - calendrier, membres, sermons et visites",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Dualite Alpha"
+      }
+    }
+    </script>
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <div id="app">
+      <!-- Installation PWA Banner -->
+      <div class="install-banner" id="installBanner">
+        <div class="install-content">
+          <span class="install-icon">📱</span>
+          <div class="install-text">
+            <strong>Installer l'app</strong>
+            <small>Accédez rapidement à vos données</small>
+          </div>
+          <button class="install-btn" id="installBtn">Installer</button>
+          <button class="install-close" id="installClose">×</button>
+        </div>
+      </div>
+
+      <!-- Offline Banner -->
+      <div class="offline-banner" id="offlineBanner">
+        <span class="offline-icon">📡</span>
+        <span>Mode hors ligne activé</span>
+      </div>
+
+      <!-- Notification Permission Banner -->
+      <div class="notification-banner" id="notificationBanner">
+        <div class="notification-content">
+          <span class="notification-icon">🔔</span>
+          <div class="notification-text">
+            <strong>Recevoir des notifications</strong>
+            <small>Ne manquez plus vos rendez-vous importants</small>
+          </div>
+          <button class="notification-allow" id="allowNotifications">Autoriser</button>
+          <button class="notification-deny" id="denyNotifications">Plus tard</button>
+        </div>
+      </div>
+
+      <!-- Header -->
+      <header class="header">
+        <div class="header-content">
+          <h1 class="header-title">
+            <span class="header-icon">✝️</span>
+            Assistant Pastoral
+          </h1>
+          <div class="header-actions">
+            <button class="header-btn" id="notificationBtn" title="Notifications">
+              <span class="notification-icon">🔔</span>
+              <span class="notification-badge" id="notificationBadge">0</span>
+            </button>
+            <button class="profile-btn" id="profileBtn">
+              <span class="profile-icon">👤</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Navigation -->
+      <nav class="bottom-nav">
+        <button class="nav-item active" data-tab="dashboard">
+          <span class="nav-icon">🏠</span>
+          <span class="nav-label">Accueil</span>
+        </button>
+        <button class="nav-item" data-tab="calendar">
+          <span class="nav-icon">📅</span>
+          <span class="nav-label">Calendrier</span>
+        </button>
+        <button class="nav-item" data-tab="members">
+          <span class="nav-icon">👥</span>
+          <span class="nav-label">Membres</span>
+        </button>
+        <button class="nav-item" data-tab="sermons">
+          <span class="nav-icon">📖</span>
+          <span class="nav-label">Sermons</span>
+        </button>
+        <button class="nav-item" data-tab="visits">
+          <span class="nav-icon">🚶</span>
+          <span class="nav-label">Visites</span>
+        </button>
+        <button class="nav-item" data-tab="calling">
+          <span class="nav-icon">📞</span>
+          <span class="nav-label">Appels</span>
+        </button>
+      </nav>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Dashboard Tab -->
+        <div id="dashboard" class="tab-content active">
+          <div class="welcome-section">
+            <h2>Bon matin, Pasteur</h2>
+            <p class="date-today" id="dateToday"></p>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon">👥</div>
+              <div class="stat-info">
+                <span class="stat-number" id="membersCount">0</span>
+                <span class="stat-label">Membres</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">📅</div>
+              <div class="stat-info">
+                <span class="stat-number" id="eventsToday">0</span>
+                <span class="stat-label">Événements aujourd'hui</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">🎯</div>
+              <div class="stat-info">
+                <span class="stat-number" id="visitsThisWeek">0</span>
+                <span class="stat-label">Visites cette semaine</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Upcoming Events/Reminders -->
+          <div class="upcoming-section">
+            <h3>Prochains événements</h3>
+            <div class="upcoming-list" id="upcomingList">
+              <!-- Upcoming events will be loaded here -->
+            </div>
+          </div>
+
+          <div class="quick-actions">
+            <h3>Actions rapides</h3>
+            <div class="action-grid">
+              <button class="action-btn" data-action="add-event">
+                <span class="action-icon">➕</span>
+                <span>Nouvel événement</span>
+              </button>
+              <button class="action-btn" data-action="add-member">
+                <span class="action-icon">👤</span>
+                <span>Ajouter membre</span>
+              </button>
+              <button class="action-btn" data-action="new-sermon">
+                <span class="action-icon">📝</span>
+                <span>Nouveau sermon</span>
+              </button>
+              <button class="action-btn" data-action="schedule-visit">
+                <span class="action-icon">📍</span>
+                <span>Planifier visite</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="recent-activities">
+            <h3>Activités récentes</h3>
+            <div class="activity-list" id="activityList">
+              <!-- Activities will be loaded here -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Calendar Tab -->
+        <div id="calendar" class="tab-content">
+          <div class="calendar-header">
+            <button class="calendar-nav" id="prevMonth">‹</button>
+            <h3 id="currentMonth"></h3>
+            <button class="calendar-nav" id="nextMonth">›</button>
+          </div>
+          <div class="calendar-grid" id="calendarGrid">
+            <!-- Calendar will be generated here -->
+          </div>
+          <div class="events-today">
+            <h4>Événements d'aujourd'hui</h4>
+            <div class="events-list" id="eventsList">
+              <!-- Today's events will be shown here -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Members Tab -->
+        <div id="members" class="tab-content">
+          <div class="section-header">
+            <h3>Membres de l'église</h3>
+            <button class="add-btn" id="addMemberBtn">+ Ajouter</button>
+          </div>
+          <div class="search-bar">
+            <input type="text" placeholder="Rechercher un membre..." id="memberSearch">
+          </div>
+          <div class="members-list" id="membersList">
+            <!-- Members will be loaded here -->
+          </div>
+        </div>
+
+        <!-- Sermons Tab -->
+        <div id="sermons" class="tab-content">
+          <div class="section-header">
+            <h3>Mes sermons</h3>
+            <button class="add-btn" id="addSermonBtn">+ Nouveau</button>
+          </div>
+          <div class="sermons-list" id="sermonsList">
+            <!-- Sermons will be loaded here -->
+          </div>
+        </div>
+
+        <!-- Visits Tab -->
+        <div id="visits" class="tab-content">
+          <div class="section-header">
+            <h3>Visites pastorales</h3>
+            <button class="add-btn" id="addVisitBtn">+ Planifier</button>
+          </div>
+          <div class="visits-filters">
+            <button class="filter-btn active" data-filter="all">Toutes</button>
+            <button class="filter-btn" data-filter="pending">À faire</button>
+            <button class="filter-btn" data-filter="completed">Terminées</button>
+          </div>
+          <div class="visits-list" id="visitsList">
+            <!-- Visits will be loaded here -->
+          </div>
+        </div>
+
+        <!-- Calling Tab -->
+        <div id="calling" class="tab-content">
+          <div class="section-header">
+            <h3>Appels de la semaine</h3>
+          </div>
+          <div class="calling-summary" id="callingSummary">
+            <!-- Summary will be loaded here -->
+          </div>
+          <div class="calling-list" id="callingList">
+            <!-- Calling list will be loaded here -->
+          </div>
+        </div>
+      </main>
+
+      <!-- Notifications Panel -->
+      <div class="notifications-panel" id="notificationsPanel">
+        <div class="notifications-header">
+          <h3>Notifications</h3>
+          <button class="notifications-close" id="closeNotifications">×</button>
+        </div>
+        <div class="notifications-list" id="notificationsList">
+          <!-- Notifications will be loaded here -->
+        </div>
+        <div class="notifications-settings">
+          <button class="btn btn-secondary" id="notificationSettings">Paramètres</button>
+          <button class="btn btn-primary" id="clearNotifications">Tout effacer</button>
+        </div>
+      </div>
+
+      <!-- Modal for adding/editing -->
+      <div class="modal" id="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 id="modalTitle">Titre</h4>
+            <button class="modal-close" id="modalClose">×</button>
+          </div>
+          <div class="modal-body" id="modalBody">
+            <!-- Modal content will be loaded here -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Loading indicator -->
+      <div class="loading" id="loading">
+        <div class="loading-spinner"></div>
+      </div>
+    </div>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
